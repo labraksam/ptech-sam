@@ -1,2 +1,1 @@
-# ptech-sam
-Project tech
+# Project Tech

@@ -77,17 +77,17 @@ The website is now available at localhost:8080. Have a look!
 ## Tech I used
 For the RelationshipGoals platform I used the following things
 
-* [NodeJS](https://nodejs.org/en/) is used to make the project in.
+* [NodeJS](https://nodejs.org/en/) is used to make the project in. 
 
-* [Body-parser](https://www.npmjs.com/package/body-parser) to help with the request from the forms.
+* [Body-parser](https://www.npmjs.com/package/body-parser) to help with the request from the forms. Is een middel wat je met express kan gebruiken om formulieren makkelijk uit te lezen. Om inlog en registreer formulieren te gebruiken. Heb hiermee gewerkt bij backend 2 jaar geleden en het beviel hiermee en het is een bekende package. 
 
-* [Argon2](https://www.npmjs.com/package/argon2) to safe my password in a hesh (more safety).
+* [Argon2](https://www.npmjs.com/package/argon2) to safe my password in a hesh (more safety). Om wachtwoorden niet als plain tekst op te slaan maar om te heshen. om een gehest wachtwoord in de database te zetten. Zo kan je het opslaan op een veilige manier. Zo kan je het ook valideren als iemand zn wachtwoord invoert. Het zag er makkelijk uit om te gebruiken en zo werkt het ook. 
 
-* [Multer](https://www.npmjs.com/package/multer) to upload an image in my form.
+* [Multer](https://www.npmjs.com/package/multer) to upload an image in my form. Een express middel om het uploaden van files via een formulier mogelijk te maken. En om weg te schrijven naar de mappenstructuur om ze terug te vinden. 
 
-* [Nodemon](https://github.com/remy/nodemon) makes it easier to use the server.
+* [Nodemon](https://github.com/remy/nodemon) makes it easier to use the server. Klein pakketje zodat ik niet elke keer mijn node server opnieuw hoef op te starten. Dat als ik opsla dat ik niet elke keer een nieuwe server aan hoef te zetten. 
 
-* [Mongodb](https://www.mongodb.com/) the database to save data in.
+* [Mongodb](https://www.mongodb.com/) the database to save data in. Om data op te slaan in een no-sql database. Met backend heb ik hier ook mee gewerkt en werkte toen relatief goed. Ook de mongodb compass is handig om je data te zien. 
 
 ## To do's
 - [x] Make a working server

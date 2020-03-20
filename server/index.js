@@ -18,7 +18,7 @@ mongo.MongoClient.connect(url, function(err, client) {
   db = client.db(process.env.DB_NAME)
 })
 
-// Adds the uploaded picture to the specific folder 
+// Adds the uploaded picture to the specific folder
 const upload = multer({
   dest: 'static/upload/'
 })
@@ -28,19 +28,23 @@ const app = express()
   .set('view engine', 'ejs')
   .set('views', 'src/view')
   .use(express.static('static'))
-  .use(bodyParser.urlencoded({
-    extended: true
-  }))
-  .use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET
-  }))
+  .use(
+    bodyParser.urlencoded({
+      extended: true
+    })
+  )
+  .use(
+    session({
+      resave: false,
+      saveUninitialized: true,
+      secret: process.env.SESSION_SECRET
+    })
+  )
 
+app
+  .use('/images', express.static('src/images'))
 
-app.use('/images', express.static('src/images'))
-
-// Starts function
+  // Starts function
   .get('/', home)
   .get('/profile/:id', singleProfile)
   .get('/signup', signup)
@@ -49,13 +53,11 @@ app.use('/images', express.static('src/images'))
   .get('/dashboard', dashboard)
   .get('/logout', logout)
   .get('/myprofile', myprofile)
-//  .delete('/:id', remove)
+  //  .delete('/:id', remove)
   .get('*', notFound)
-  .listen(8080)
-
+  .listen(5000)
 
 function dashboard(req, res) {
-
   const data = {
     session: req.session.user,
     users: ''
@@ -63,10 +65,13 @@ function dashboard(req, res) {
 
   if (data.session) {
     console.log('ingelogd')
-    db.collection('users').find().toArray(done)
+    db.collection('users')
+      .find()
+      .toArray(done)
 
     function done(err, allUsers) {
-      if (err) {} else {
+      if (err) {
+      } else {
         console.log(data)
         data.users = allUsers
 
@@ -92,48 +97,46 @@ function doLogin(req, res) {
   const password = req.body.password
 
   if (!username || !password) {
-    res
-      .status(400)
-      .send('Username or password are missing')
+    res.status(400).send('Username or password are missing')
 
     return
   }
   const dbUsers = db.collection('users')
 
-  dbUsers.findOne({
-    email: username
-  }, function(err, user) {
-    if (err) {
-      console.log(err)
-    } else {
-      try {
-        argon2.verify(user.password, password)
-          .then(onverify)
-      } catch (err) {
-        res.redirect('index.ejs')
+  dbUsers.findOne(
+    {
+      email: username
+    },
+    function(err, user) {
+      if (err) {
         console.log(err)
-      }
+      } else {
+        try {
+          argon2.verify(user.password, password).then(onverify)
+        } catch (err) {
+          res.redirect('index.ejs')
+          console.log(err)
+        }
 
-      function onverify(match) {
-       // Argon2 match with password
+        function onverify(match) {
+          // Argon2 match with password
           if (match) {
-          // Logged in
-          req.session.user = user
+            // Logged in
+            req.session.user = user
 
-          const data = {
-            session: req.session.user,
-            users: ''
+            const data = {
+              session: req.session.user,
+              users: ''
+            }
+
+            res.redirect('dashboard')
+          } else {
+            res.status(401).send('Password incorrect')
           }
-
-          res.redirect('dashboard')
-
-
-        } else {
-          res.status(401).send('Password incorrect')
         }
       }
     }
-  })
+  )
 }
 
 function signup(req, res) {
@@ -145,7 +148,6 @@ function signup(req, res) {
 }
 
 function doSignup(req, res) {
-
   const currentUser = req.body.email
   const password = req.body.password
   const passwordAgain = req.body.passwordAgain
@@ -153,60 +155,61 @@ function doSignup(req, res) {
   const max = 16
 
   if (!currentUser || !password) {
-    res
-      .status(400)
-      .send('Username or password are missing')
+    res.status(400).send('Username or password are missing')
     return
   }
 
   if (password.length < min || password.length > max) {
     res
       .status(400)
-      .send(
-        'Password must be between ' + min +
-        ' and ' + max + ' characters'
-      )
+      .send('Password must be between ' + min + ' and ' + max + ' characters')
     return
   }
-    
+
   // Search for database table user
   const users = db.collection('users')
 
   // Search for a user
-  users.findOne({
-    // Search for input username
-    username: currentUser
-  }, function(err, user) {
-    if (err) {
-      console.log(err)
-    } else {
-      argon2.hash(password).then(onhash)
+  users.findOne(
+    {
+      // Search for input username
+      username: currentUser
+    },
+    function(err, user) {
+      if (err) {
+        console.log(err)
+      } else {
+        argon2.hash(password).then(onhash)
+      }
     }
-  })
+  )
 
-    // Will add hash to database
+  // Will add hash to database
   function onhash(hash) {
-    db.collection('users').insertOne({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: hash,
-      cover: req.file ? req.file.filename : null,
-      gender: req.body.gender,
-      gender_pref: req.body.gender_pref,
-      birthday: req.body.birthday,
-      age_pref_min: req.body.age_pref_min,
-      age_pref_max: req.body.age_pref_max
-    }, doneInserting)
+    db.collection('users').insertOne(
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash,
+        cover: req.file ? req.file.filename : null,
+        gender: req.body.gender,
+        gender_pref: req.body.gender_pref,
+        birthday: req.body.birthday,
+        age_pref_min: req.body.age_pref_min,
+        age_pref_max: req.body.age_pref_max
+      },
+      doneInserting
+    )
 
-      // Going fo a sesion with user data
+    // Going fo a sesion with user data
     function doneInserting(err, user) {
       req.session.user = user.ops[0]
 
       const data = {
         session: req.session.user
       }
-    
+
       res.redirect('dashboard')
     }
   }
@@ -231,18 +234,20 @@ function singleProfile(req, res) {
   if (data.session) {
     console.log('render vanaf sessie')
     const mongoID = new mongo.ObjectID(req.params.id)
-    db.collection('users').findOne({
-      _id: mongoID
-    }, function(err, user) {
-      if (err) {
-        console.log(err)
-      } else {
-        data.currentUser = user
-        res.render('dashboard/profile.ejs', data)
+    db.collection('users').findOne(
+      {
+        _id: mongoID
+      },
+      function(err, user) {
+        if (err) {
+          console.log(err)
+        } else {
+          data.currentUser = user
+          res.render('dashboard/profile.ejs', data)
+        }
       }
-    })
+    )
   } else {
-
     res.render('dashboard/profile.ejs', data)
   }
 }
@@ -258,7 +263,7 @@ function notFound(req, res) {
 
 function myprofile(req, res) {
   const data = {
-    session: req.session.user,
+    session: req.session.user
   }
 
   res.render('dashboard/myprofile.ejs', data)

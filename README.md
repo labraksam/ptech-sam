@@ -79,15 +79,15 @@ For the RelationshipGoals platform I used the following things
 
 * [NodeJS](https://nodejs.org/en/) is used to make the project in. 
 
-* [Body-parser](https://www.npmjs.com/package/body-parser) to help with the request from the forms. Is een middel wat je met express kan gebruiken om formulieren makkelijk uit te lezen. Om inlog en registreer formulieren te gebruiken. Heb hiermee gewerkt bij backend 2 jaar geleden en het beviel hiermee en het is een bekende package. 
+* [Body-parser](https://www.npmjs.com/package/body-parser) to help with the request from the forms. It is a tool that you can use with Express to easy read forms. Mainly the login and register form. Used this at the Backend course 2 years ago and was really happy with it and so I still use it. Also it is one of the most famous packages in this kind. 
 
-* [Argon2](https://www.npmjs.com/package/argon2) to safe my password in a hesh (more safety). Om wachtwoorden niet als plain tekst op te slaan maar om te heshen. om een gehest wachtwoord in de database te zetten. Zo kan je het opslaan op een veilige manier. Zo kan je het ook valideren als iemand zn wachtwoord invoert. Het zag er makkelijk uit om te gebruiken en zo werkt het ook. 
+* [Argon2](https://www.npmjs.com/package/argon2) to safe my password in a hesh (more safety). It is used to save the passwords not as plain thekst in a file but in a hesh. Also to put this heshed password in th database. Using this will make it more secure to work with data from users. You can also validate it in this way. It is a really simple thing to use. Since im not really experienced with the tech, i will choose for something that is easy to use. In this case it was Argon2. 
 
-* [Multer](https://www.npmjs.com/package/multer) to upload an image in my form. Een express middel om het uploaden van files via een formulier mogelijk te maken. En om weg te schrijven naar de mappenstructuur om ze terug te vinden. 
+* [Multer](https://www.npmjs.com/package/multer) it is used to upload files via a form. Also it will help to write away the files to the folder structure to easily find them back. Works really well. 
 
-* [Nodemon](https://github.com/remy/nodemon) makes it easier to use the server. Klein pakketje zodat ik niet elke keer mijn node server opnieuw hoef op te starten. Dat als ik opsla dat ik niet elke keer een nieuwe server aan hoef te zetten. 
+* [Nodemon](https://github.com/remy/nodemon) makes it easier to use the server. Its a small package that i use for not everytime i use the node server i have to restart it. Evertime i make a change, it will restart itself. 
 
-* [Mongodb](https://www.mongodb.com/) the database to save data in. Om data op te slaan in een no-sql database. Met backend heb ik hier ook mee gewerkt en werkte toen relatief goed. Ook de mongodb compass is handig om je data te zien. 
+* [Mongodb](https://www.mongodb.com/) the database to save data in a no-sql database. I used to work with this at the backand course two years ago and i really liked working with it. Also now with the Mongodb compass. It is really nice to see your data in a nice interface.
 
 ## To do's
 - [x] Make a working server
